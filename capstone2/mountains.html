@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mountain Info</title>
+    <link href="scripts/style.css" rel="stylesheet">
+
+
+    <style>
+        .table-box {
+            border-left: 2px solid black;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+            padding-left: 7px;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 50px;
+            font-weight: bold;
+        }
+        .last-table-box {
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+            padding-left: 7px;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 50px;
+            border-right: 2px solid black;
+            border-top: 2px solid black;
+            font-weight: bold;
+        }
+
+        .dynamic-table-box {
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+            padding-left: 7px;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 50px;
+        }
+
+        .last-dynamic-table-box {
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+            padding-left: 7px;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 50px;
+            border-right: 2px solid black;
+        }
+
+        .better-dropdown {
+            width: 100%;
+            border: none;
+            border-radius: 2px;
+            font-size: larger;
+            margin-bottom: 1rem;
+        }
+
+        .mountain-image {
+            width: 50%;
+            margin: 20px;
+            margin-top: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="nav-gap"></div>
+        <a class="nav-button" id="homeButton" href="home.html"><img id="HomeButtonImage" style="width: 50px; margin: 0px;" src="scripts\images\Home Button.svg"></a>
+        <a class="nav-button" id="searchButton" href="search.html"><img id="SearchButtonImage" style="width: 50px; margin: 0px;" src="scripts\images\Search Button.svg"></a>
+        <a class="pre-selected-nav-button" id="mountainButton" href="mountains.html"><img id="mountainButtonImage" style="width: 50px; margin: 0px;" src="scripts\images\Mountain Icon Alt.svg"></a>
+    </div>
+
+    <div class="main-container">
+
+        <div class="info-column">
+            <div class="inner-column" style="width: 90%;">
+                <div class="info-box" style="height: 100vh; justify-content: center; align-items: flex-start; flex-direction: row;">
+
+                    <div style="width: 100%;">
+                    <table style="border-left-width: 0px; width: 100%;">
+                        <tr style="display: flex; justify-content: center; width: 100%;">
+                            <td>
+                                <select id="dropdownMenu" class="better-dropdown" onclick="fillData();">
+                                    <option>Select...</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div id="imageContainer" style="display: flex; justify-content: center;">
+                        
+                    </div>
+                    <div style="width: 100%; display: flex; justify-content: center;">
+                        <div style="display: flex; flex-direction: column; align-items: center; font-size: x-large; background-color: rgba(0, 0, 0, 0.5); width: 50%; padding: 25px; border-radius: 5px; border: 2px solid black;">
+                        <p id="effort" style="font-size: xx-large;">Please Select A Mountain</p>
+                        <p id="description" style="text-align: center;"></p>
+                        <p id="latlng"></p>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="foot-bar"></div>
+        </div>
+        
+    </div>
+
+    <script src="scripts/scripts/mountainData.js"></script>
+
+    <script>
+        const dropdownMenu = document.querySelector("#dropdownMenu");
+        const imageContainer = document.querySelector("#imageContainer");
+        const effortP = document.querySelector("#effort");
+        const descriptionP = document.querySelector("#description");
+        const latlngP = document.querySelector("#latlng");
+
+        let matchingParkArray = [];
+
+        let radioState = 0;
+        
+        function checkByLocation() {
+            let firstRun = 0;
+
+            dropdownMenu.innerHTML = "";
+
+            reRunLocation();
+            function reRunLocation() {
+
+                if (firstRun == 0) {
+                    let newOption = document.createElement("option");
+                    newOption.value = "";
+                    newOption.innerText = "Select...";
+                    firstRun = 1;
+
+                    dropdownMenu.appendChild(newOption);
+                    reRunLocation();
+                } else {
+                    for (const i of mountainsArray) {
+                    
+                        let newOption = document.createElement("option");
+                        newOption.value = i.name;
+                        newOption.innerText = i.name;
+                        newOption.addEventListener("onclick", fillData);
+
+
+                        dropdownMenu.appendChild(newOption);
+                    };
+                };
+            };
+        };
+
+        function fillData() {
+            
+
+            for (const i of mountainsArray) {
+                if (i.name == dropdownMenu.value) {
+                    imageContainer.innerHTML = "";
+
+
+                    
+                    let newImage = document.createElement("img");
+                    newImage.src = `scripts/images/${i.img}`;
+                    newImage.className = "mountain-image";
+                    
+                    imageContainer.appendChild(newImage);
+
+
+                    effortP.innerText = `Difficulty: ${i.effort}`;
+                    descriptionP.innerText = i.desc;
+
+                    latlngP.innerText = `LAT: ${i.coords.lat} LNG: ${i.coords.lng}`;
+                };
+            };
+            
+        };
+        checkByLocation();
+
+
+
+
+
+
+        
+        const homeButton = document.querySelector("#homeButton");
+        const homeButtonImage = document.querySelector("#homeButtonImage");
+        const searchButton = document.querySelector("#searchButton");
+        const searchButtonImage = document.querySelector("#searchButtonImage");
+
+    
+        homeButton.onmouseover = homeButtonOn;
+        homeButton.onmouseout = homeButtonOff;
+        searchButton.onmouseover = searchButtonOn;
+        searchButton.onmouseout = searchButtonOff;
+
+        function homeButtonOn() {
+            homeButton.innerHTML = "";
+            let homeIcon = document.createElement("img");
+            homeIcon.style.width = "50px";
+            homeIcon.style.margin = "0px"
+            homeIcon.id = "searchButtonImage";
+            homeIcon.src = 'scripts/images/Home Button Alt.svg';
+
+            homeButton.appendChild(homeIcon);
+        };
+
+        function homeButtonOff() {
+            homeButton.innerHTML = "";
+            let homeIcon = document.createElement("img");
+            homeIcon.style.width = "50px";
+            homeIcon.style.margin = "0px"
+            homeIcon.id = "searchButtonImage";
+            homeIcon.src = 'scripts/images/Home Button.svg';
+
+            homeButton.appendChild(homeIcon);
+        };
+
+        function searchButtonOn() {
+            searchButton.innerHTML = "";
+            let searchIcon = document.createElement("img");
+            searchIcon.style.width = "50px";
+            searchIcon.style.margin = "0px"
+            searchIcon.id = "searchButtonImage";
+            searchIcon.src = 'scripts/images/Search Button Alt.svg';
+
+            searchButton.appendChild(searchIcon);
+        };
+
+        function searchButtonOff() {
+            searchButton.innerHTML = "";
+            let searchIcon = document.createElement("img");
+            searchIcon.style.width = "50px";
+            searchIcon.style.margin = "0px"
+            searchIcon.id = "searchButtonImage";
+            searchIcon.src = 'scripts/images/Search Button.svg';
+
+            searchButton.appendChild(searchIcon);
+        };
+    </script>
+</body>
+</html>

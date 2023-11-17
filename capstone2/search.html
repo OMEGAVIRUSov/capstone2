@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parks Search</title>
+    <link href="scripts/style.css" rel="stylesheet">
+
+
+    <style>
+        .table-box {
+            border-left: 2px solid black;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+            padding-left: 7px;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 50px;
+            font-weight: bold;
+        }
+        .last-table-box {
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+            padding-left: 7px;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 50px;
+            border-right: 2px solid black;
+            border-top: 2px solid black;
+            font-weight: bold;
+        }
+
+        .dynamic-table-box {
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+            padding-left: 7px;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 50px;
+        }
+
+        .last-dynamic-table-box {
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+            padding-left: 7px;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 50px;
+            border-right: 2px solid black;
+        }
+
+        .better-dropdown {
+            width: 100%;
+            border: none;
+            border-radius: 2px;
+            font-size: 120%;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="nav-gap"></div>
+        <a class="nav-button" id="homeButton" href="home.html"><img id="HomeButtonImage" style="width: 50px; margin: 0px;" src="scripts\images\Home Button.svg"></a>
+        <a class="pre-selected-nav-button" id="searchButton" href="search.html"><img id="SearchButtonImage" style="width: 50px; margin: 0px;" src="scripts\images\Search Button Alt.svg"></a>
+        <a class="nav-button" id="mountainButton" href="mountains.html"><img id="mountainButtonImage" style="width: 50px; margin: 0px;" src="scripts\images\Mountain Icon.svg"></a>
+    </div>
+
+    <div class="main-container">
+
+        <div class="info-column">
+            <div class="inner-column" style="width: 90%;">
+                <div class="info-box" style="height: 100vh; justify-content: center; align-items: flex-start; flex-direction: row;">
+
+                    <div style="width: 100%;">
+                        <table style="border-left-width: 0px; display: flex; justify-content: center;">
+                            <tr style="display: flex; justify-content: center; margin: 5px;">
+                                <td>
+                                    <select id="dropdownMenu" class="better-dropdown" onclick="fillData();">
+                                        <option>Select...</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr style="display: flex; justify-content: center; margin: 5px;">
+                                <td style="margin-right: 5px; font-size: larger;">
+                                    <input type="radio" onclick="checkByLocation();" id="location" value="" checked>
+                                    <label for="location">Search By Location</label>
+                                </td>
+                                <td style="margin-left: 5px; font-size: larger;">
+                                    <input type="radio" onclick="checkByType();" id="parkType" value="">
+                                    <label for="parkType">Search By Park Type</label>
+                                </td>
+                                <td style="margin-left: 5px; font-size: larger;">
+                                    <input type="radio" onclick="allParks();" id="allParks" value="">
+                                    <label for="allParks">All Parks</label>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="border-spacing: 0px; width: 100%;" id="rowToFill">
+                            <tr> 
+                                <td class="table-box">Name</td>
+                                <td class="table-box">Address</td>
+                                <td class="table-box">City</td>
+                                <td class="table-box">State</td>
+                                <td class="table-box">Zip</td>
+                                <td class="table-box">Phone</td>
+                                <td class="table-box" style="border-right: 2px solid black;">Website</td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="foot-bar"></div>
+        </div>
+        
+    </div>
+
+    <script src="scripts/scripts/locationData.js"></script>
+    <script src="scripts/scripts/nationalParkData.js"></script>
+    <script src="scripts/scripts/parkTypeData.js"></script>
+
+    <script>
+        const box1 = document.querySelector("#box1");
+        const box2 = document.querySelector("#box2");
+        const dropdownMenu = document.querySelector("#dropdownMenu");
+        const dataTable = document.querySelector("#rowToFill");
+        let matchingParkArray = [];
+
+        let radioState = 0;
+        
+        function checkByLocation() {
+            let firstRun = 0;
+            radioState = 0;
+            const byLocation = document.querySelector("#location");
+            const byType = document.querySelector("#parkType");
+
+            byType.checked = false;
+
+            dropdownMenu.innerHTML = "";
+
+            reRunLocation();
+            function reRunLocation() {
+
+                if (firstRun == 0) {
+                    let newOption = document.createElement("option");
+                    newOption.value = "";
+                    newOption.innerText = "State...";
+                    firstRun = 1;
+
+                    dropdownMenu.appendChild(newOption);
+                    reRunLocation();
+                } else {
+                    for (const i of locationsArray) {
+                    
+                        let newOption = document.createElement("option");
+                        newOption.value = i;
+                        newOption.innerText = i;
+                        newOption.addEventListener("onclick", fillData);
+
+
+                        dropdownMenu.appendChild(newOption);
+                    };
+                };
+            };
+        };
+
+        function checkByType() {
+            let firstRun = 0;
+            radioState = 1;
+            const byLocation = document.querySelector("#location");
+            const byType = document.querySelector("#parkType");
+
+            byLocation.checked = false;
+
+            dropdownMenu.innerHTML = "";
+
+            reRunType();
+            function reRunType() {
+               if (firstRun == 0) {
+                    let newOption = document.createElement("option");
+                    newOption.value = "";
+                    newOption.innerText = "Type...";
+                    firstRun = 1;
+
+                    dropdownMenu.appendChild(newOption);
+                    reRunType();
+                } else {
+                    for (const i of parkTypesArray) {
+                        
+                        let newOption = document.createElement("option");
+                        newOption.value = i;
+                        newOption.innerText = i;
+                        newOption.addEventListener("onclick", fillData);
+                        dropdownMenu.appendChild(newOption);
+                    };
+                }; 
+            };
+        };
+
+        function allParks() {
+            let firstRun = 0;
+            radioState = 2;
+            const byLocation = document.querySelector("#location");
+            const byType = document.querySelector("#parkType");
+
+            byLocation.checked = false;
+
+            dropdownMenu.innerHTML = "";
+
+            reRunType();
+            function reRunType() {
+               if (firstRun == 0) {
+                    let newOption = document.createElement("option");
+                    newOption.value = "";
+                    newOption.innerText = "All Types";
+                    firstRun = 1;
+
+                    dropdownMenu.appendChild(newOption);
+                    reRunType();
+                } else {
+                    fillData();
+                }; 
+            };
+        };
+
+
+        function fillData() {
+            dataTable.innerHTML = "";
+
+            let newRow = dataTable.insertRow();
+
+                    let name = newRow.insertCell(".dynamic-table-box");
+                    name.innerText = "Name";
+                    name.className = "table-box";
+
+                    let address = newRow.insertCell();
+                    address.innerText = "Address";
+                    address.className = "table-box";
+
+                    let city = newRow.insertCell();
+                    city.innerText = "City";
+                    city.className = "table-box";
+
+                    let state = newRow.insertCell();
+                    state.innerText = "State";
+                    state.className = "table-box";
+
+                    let zip = newRow.insertCell();
+                    zip.innerText = "Zip";
+                    zip.className = "table-box";
+
+                    let phone = newRow.insertCell();
+                    phone.innerText = "Phone";
+                    phone.className = "table-box";
+
+                    let website = newRow.insertCell();
+                    website.innerText = "Website";
+                    website.className = "last-table-box";
+
+                    dataTable.appendChild(newRow);
+
+            if (radioState == 0) {
+                for (const i of nationalParksArray) {
+                    if (i.State == dropdownMenu.value) {
+                        let newRow = dataTable.insertRow();
+
+                        let name = newRow.insertCell(".dynamic-table-box");
+                        name.innerText = i.LocationName;
+                        name.className = "dynamic-table-box";
+
+                        let address = newRow.insertCell();
+                        address.innerText = i.Address;
+                        address.className = "dynamic-table-box";
+
+                        let city = newRow.insertCell();
+                        city.innerText = i.City;
+                        city.className = "dynamic-table-box";
+
+                        let state = newRow.insertCell();
+                        state.innerText = i.State;
+                        state.className = "dynamic-table-box";
+
+                        let zip = newRow.insertCell();
+                        zip.innerText = i.ZipCode;
+                        zip.className = "dynamic-table-box";
+
+                        let phone = newRow.insertCell();
+                        phone.innerText = i.Phone;
+                        phone.className = "dynamic-table-box";
+
+                        
+                        let website = newRow.insertCell(); 
+                        website.className = "last-dynamic-table-box";
+
+                        let newLink = document.createElement("a");
+                        newLink.href = i.Visit;
+                        newLink.innerText = i.Visit;
+                        newLink.target = "_blank";   
+                        
+                        website.appendChild(newLink);
+                        
+
+                        if (name.innerText == "undefined") {
+                            name.innerText = "N/A"
+                        };
+                        if (address.innerText == "undefined") {
+                            address.innerText = "N/A"
+                        };
+                        if (city.innerText == "undefined") {
+                            city.innerText = "N/A"
+                        };
+                        if (state.innerText == "undefined") {
+                            state.innerText = "N/A"
+                        };
+                        if (zip.innerText == 0) {
+                            zip.innerText = "N/A"
+                        };
+                        if (phone.innerText == 0) {
+                            phone.innerText = "N/A"
+                        };
+                        if (website.innerText == "undefined") {
+                            website.innerText = "N/A"
+                        };
+                        dataTable.appendChild(newRow);
+                    };
+                };
+            };
+
+            if (radioState == 1) {
+                for (const i of nationalParksArray) {
+                    
+                    let nameValue = i.LocationName;
+
+                    let contains = nameValue.indexOf(dropdownMenu.value);
+                    console.log(contains);
+                    if (contains != 0 && contains != -1) {
+                        let newRow = dataTable.insertRow();
+
+                        let name = newRow.insertCell(".dynamic-table-box");
+                        name.innerText = i.LocationName;
+                        name.className = "dynamic-table-box";
+
+                        let address = newRow.insertCell();
+                        address.innerText = i.Address;
+                        address.className = "dynamic-table-box";
+
+                        let city = newRow.insertCell();
+                        city.innerText = i.City;
+                        city.className = "dynamic-table-box";
+
+                        let state = newRow.insertCell();
+                        state.innerText = i.State;
+                        state.className = "dynamic-table-box";
+
+                        let zip = newRow.insertCell();
+                        zip.innerText = i.ZipCode;
+                        zip.className = "dynamic-table-box";
+
+                        let phone = newRow.insertCell();
+                        phone.innerText = i.Phone;
+                        phone.className = "dynamic-table-box";
+
+                        
+                        let website = newRow.insertCell(); 
+                        website.className = "last-dynamic-table-box";
+
+                        let newLink = document.createElement("a");
+                        newLink.href = i.Visit;
+                        newLink.innerText = i.Visit;
+                        newLink.target = "_blank";   
+                        
+                        website.appendChild(newLink);
+                        
+
+                        if (name.innerText == "undefined") {
+                            name.innerText = "N/A"
+                        };
+                        if (address.innerText == "undefined") {
+                            address.innerText = "N/A"
+                        };
+                        if (city.innerText == "undefined") {
+                            city.innerText = "N/A"
+                        };
+                        if (state.innerText == "undefined") {
+                            state.innerText = "N/A"
+                        };
+                        if (zip.innerText == 0) {
+                            zip.innerText = "N/A"
+                        };
+                        if (phone.innerText == 0) {
+                            phone.innerText = "N/A"
+                        };
+                        if (website.innerText == "undefined") {
+                            website.innerText = "N/A"
+                        };
+                        dataTable.appendChild(newRow);
+                    } else {
+                        //
+                    };
+                };
+            };
+
+            if (radioState == 2) {
+                for (const i of nationalParksArray) {
+                        let newRow = dataTable.insertRow();
+
+                        let name = newRow.insertCell(".dynamic-table-box");
+                        name.innerText = i.LocationName;
+                        name.className = "dynamic-table-box";
+
+                        let address = newRow.insertCell();
+                        address.innerText = i.Address;
+                        address.className = "dynamic-table-box";
+
+                        let city = newRow.insertCell();
+                        city.innerText = i.City;
+                        city.className = "dynamic-table-box";
+
+                        let state = newRow.insertCell();
+                        state.innerText = i.State;
+                        state.className = "dynamic-table-box";
+
+                        let zip = newRow.insertCell();
+                        zip.innerText = i.ZipCode;
+                        zip.className = "dynamic-table-box";
+
+                        let phone = newRow.insertCell();
+                        phone.innerText = i.Phone;
+                        phone.className = "dynamic-table-box";
+
+                        
+                        let website = newRow.insertCell(); 
+                        website.className = "last-dynamic-table-box";
+
+                        let newLink = document.createElement("a");
+                        newLink.href = i.Visit;
+                        newLink.innerText = i.Visit;
+                        newLink.target = "_blank";   
+                        
+                        website.appendChild(newLink);
+                        
+
+                        if (name.innerText == "undefined") {
+                            name.innerText = "N/A"
+                        };
+                        if (address.innerText == "undefined") {
+                            address.innerText = "N/A"
+                        };
+                        if (city.innerText == "undefined") {
+                            city.innerText = "N/A"
+                        };
+                        if (state.innerText == "undefined") {
+                            state.innerText = "N/A"
+                        };
+                        if (zip.innerText == 0) {
+                            zip.innerText = "N/A"
+                        };
+                        if (phone.innerText == 0) {
+                            phone.innerText = "N/A"
+                        };
+                        if (website.innerText == "undefined") {
+                            website.innerText = "N/A"
+                        };
+                        dataTable.appendChild(newRow);
+                };
+            };
+            
+            
+        };
+        checkByLocation();
+
+
+
+
+
+
+
+
+        const mountainButton = document.querySelector("#mountainButton");
+        const mountainButtonImage = document.querySelector("#mountainButtonImage");
+        const homeButton = document.querySelector("#homeButton");
+        const homeButtonImage = document.querySelector("#homeButtonImage");
+
+        mountainButton.onmouseover = mountainButtonOn;
+        mountainButton.onmouseout = mountainButtonOff;
+        homeButton.onmouseover = homeButtonOn;
+        homeButton.onmouseout = homeButtonOff;
+
+        function mountainButtonOn() {
+            mountainButton.innerHTML = "";
+            let mountainIcon = document.createElement("img");
+            mountainIcon.style.width = "50px";
+            mountainIcon.style.margin = "0px"
+            mountainIcon.id = "mountainButtonImage";
+            mountainIcon.src = 'scripts/images/Mountain Icon Alt.svg';
+
+            mountainButton.appendChild(mountainIcon);
+        };
+
+        function mountainButtonOff() {
+            mountainButton.innerHTML = "";
+            let mountainIcon = document.createElement("img");
+            mountainIcon.style.width = "50px";
+            mountainIcon.style.margin = "0px"
+            mountainIcon.src = 'scripts/images/Mountain Icon.svg';
+
+            mountainButton.appendChild(mountainIcon);
+        };
+
+        function homeButtonOn() {
+            homeButton.innerHTML = "";
+            let homeIcon = document.createElement("img");
+            homeIcon.style.width = "50px";
+            homeIcon.style.margin = "0px"
+            homeIcon.id = "searchButtonImage";
+            homeIcon.src = 'scripts/images/Home Button Alt.svg';
+
+            homeButton.appendChild(homeIcon);
+        };
+
+        function homeButtonOff() {
+            homeButton.innerHTML = "";
+            let homeIcon = document.createElement("img");
+            homeIcon.style.width = "50px";
+            homeIcon.style.margin = "0px"
+            homeIcon.id = "searchButtonImage";
+            homeIcon.src = 'scripts/images/Home Button.svg';
+
+            homeButton.appendChild(homeIcon);
+        };
+    </script>
+</body>
+</html>

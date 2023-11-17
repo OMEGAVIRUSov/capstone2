@@ -1,0 +1,131 @@
+body {
+    font-family: 'Arial', cursive;
+    width: 100%;
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url("images/tree-oak-bark-texture-1340374.jpg");
+}
+
+::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+.nav-bar {
+    width: 100%;
+    height: 120px;
+    background-color: green;
+    display: flex;
+}
+
+.foot-bar {
+    width: 100%;
+    height: 200px;
+    background-color: green;
+}
+
+.main-container {
+    width: 100%;
+    height: auto;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.info-column {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: visible;
+    
+}
+
+.inner-column {
+    width: 70%;
+    height: auto;
+    
+    margin: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding-bottom: 30px;
+    
+}
+
+.info-box {
+    width: auto;
+    height: auto;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    overflow-y: auto;
+    border-radius: 2.5px;
+    background-color: rgba(0, 128, 0, 0.7);
+    color: white;
+    margin-top: 30px;
+}
+
+.homepage-paragraph {
+    padding: 0px;
+    margin: 0px;
+    width: 60%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    font-size: xx-large;
+}
+
+.info-box-img {
+    margin-left: 2.5%;
+    width: 500px;
+    object-fit: cover;
+}
+
+.nav-gap {
+    width: 10%;
+    height: 100%;
+    background-color: green;
+}
+
+.nav-button {
+    width: 10%;
+    height: 100%;
+    background-color: green;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-button:hover {
+    background-color: white;
+    color: black;
+    
+}
+
+.pre-selected-nav-button {
+    width: 10%;
+    height: 100%;
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+}
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <link href="scripts/style.css" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="nav-bar" style="height: 186px;">
+        <div class="nav-gap"></div>
+        <a class="pre-selected-nav-button" id="homeButton" href="home.html"><img id="HomeButtonImage" style="width: 50px; margin: 0px;" src="scripts\images\Home Button Alt.svg"></a>
+        <a class="nav-button" id="searchButton" href="search.html"><img id="SearchButtonImage" style="width: 50px; margin: 0px;" src="scripts\images\Search Button.svg"></a>
+        <a class="nav-button" id="mountainButton" href="mountains.html"><img id="mountainButtonImage" style="width: 50px; margin: 0px;" src="scripts\images\Mountain Icon.svg"></a>
+    </div>
+    <div class="main-container">
+        <div class="info-column">
+            <div class="inner-column" style="display: flex; justify-content: center;">
+                <div class="info-box" style="width: 700px; display: flex; justify-content: center;">
+                    <img style="width: 500px;" src="scripts\images\NQlogoEdited.png">
+                </div>
+                <div class="info-box">
+                    <p class="homepage-paragraph">Embark on a journey with NatureQuest, your gateway to the transformative power of the great outdoors. As advocates for nature exploration, we believe in connecting individuals with the beauty and serenity found in national parks and majestic mountains. Our mission is to guide you through unforgettable experiences, fostering a deep appreciation for the wonders of the wilderness.</p>
+                    <img class="info-box-img" src="scripts\images\Bond-StoryImage_3.jpg">
+                </div>
+                <div style="flex-direction: row-reverse;" class="info-box">
+                    <p class="homepage-paragraph">At NatureQuest, we invite you to discover outdoor bliss by exploring the diverse landscapes our planet has to offer. From the rugged trails of majestic mountains to the serene beauty of national parks, our organization is dedicated to curating experiences that resonate with nature enthusiasts, hikers, and those seeking moments of tranquility in natural surroundings.</p>
+                    <img class="info-box-img" style="margin-left: 0px; margin-right: 2.5%;" src="scripts\images\Jackson-StoryImg.jpg">
+                </div>
+                <div class="info-box">
+                    <p class="homepage-paragraph">Join us on Your Path to Lasting Memories with NatureQuest. Whether you're seeking adventure, relaxation, or simply a breath of fresh air, our curated experiences in the great outdoors promise to create memories that linger for a lifetime. NatureQuest is more than an organization; it's a community of like-minded individuals united by a shared passion for nature and a commitment to preserving the beauty that surrounds us.</p>
+                    <img class="info-box-img" src="scripts\images\WildcatD-StoryImg.jpg">
+                </div>
+            </div>
+            <div class="foot-bar"></div>
+        </div>
+    </div>
+    <script>
+        let True = true;
+        let detected = false;
+        const mountainButton = document.querySelector("#mountainButton");
+        const mountainButtonImage = document.querySelector("#mountainButtonImage");
+        const searchButton = document.querySelector("#searchButton");
+        const searchButtonImage = document.querySelector("#searchButtonImage");
+
+        mountainButton.onmouseover = mountainButtonOn;
+        mountainButton.onmouseout = mountainButtonOff;
+        searchButton.onmouseover = searchButtonOn;
+        searchButton.onmouseout = searchButtonOff;
+
+        function mountainButtonOn() {
+            mountainButton.innerHTML = "";
+            let mountainIcon = document.createElement("img");
+            mountainIcon.style.width = "50px";
+            mountainIcon.style.margin = "0px"
+            mountainIcon.id = "mountainButtonImage";
+            mountainIcon.src = 'scripts/images/Mountain Icon Alt.svg';
+
+            mountainButton.appendChild(mountainIcon);
+        };
+
+        function mountainButtonOff() {
+            mountainButton.innerHTML = "";
+            let mountainIcon = document.createElement("img");
+            mountainIcon.style.width = "50px";
+            mountainIcon.style.margin = "0px"
+            mountainIcon.src = 'scripts/images/Mountain Icon.svg';
+
+            mountainButton.appendChild(mountainIcon);
+        };
+
+        function searchButtonOn() {
+            searchButton.innerHTML = "";
+            let searchIcon = document.createElement("img");
+            searchIcon.style.width = "50px";
+            searchIcon.style.margin = "0px"
+            searchIcon.id = "searchButtonImage";
+            searchIcon.src = 'scripts/images/Search Button Alt.svg';
+
+            searchButton.appendChild(searchIcon);
+        };
+
+        function searchButtonOff() {
+            searchButton.innerHTML = "";
+            let searchIcon = document.createElement("img");
+            searchIcon.style.width = "50px";
+            searchIcon.style.margin = "0px"
+            searchIcon.id = "searchButtonImage";
+            searchIcon.src = 'scripts/images/Search Button.svg';
+
+            searchButton.appendChild(searchIcon);
+        };
+
+
+    </script>
+</body>
+</html>
